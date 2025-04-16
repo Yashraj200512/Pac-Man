@@ -145,9 +145,30 @@ game.exe   # On Windows
 
 - **Original Developer**: [Farid Karimi](https://github.com/Farid-Karimi)
 
-Here's a refined version of your presentation with clear Q&A sections based on your code:
+## bug fixed in main codebase
 
-### **Pac-Man Technical  Q&A**
+This pull request fixes two issues in `main.cpp`:
+
+### Bug: dimension() allows invalid input
+
+The `dimension()` function currently does not validate user input. This means the user can enter width > 50 or height > 40, which causes display issues or improper rendering in the terminal.
+
+### Suggested Fix
+
+Add validation to re-prompt the user if values exceed allowed limits, e.g., width ≤ 50 and height ≤ 40.
+
+### Bug: Inefficient randomness in `succsesfullyConnectedToNeighbour()`
+
+Every call to `succsesfullyConnectedToNeighbour()` creates a new `std::random_device` and `mt19937` engine. This reduces randomness and can lead to repeated or poor-quality maze generation.
+
+### Suggested Fix
+
+Use a static `std::mt19937` engine seeded once with high-resolution time and memory address entropy.
+
+   - Avoids repeated mazes or weak randomness from reseeding every call.
+
+
+## **Pac-Man   Q&A**
 
 #### **1. Maze Generation**
 **Q: Why did you choose DFS over other maze algorithms?**  
